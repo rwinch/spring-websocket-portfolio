@@ -13,6 +13,9 @@ function ApplicationModel(stompClient) {
       console.log('Connected ' + frame);
       self.username(frame.headers['user-name']);
 
+      stompClient.subscribe("/user/queue/errors", function(message) {
+          self.pushNotification("Error " + message.body);
+      });
       stompClient.subscribe("/app/positions", function(message) {
         self.portfolio().loadPositions(JSON.parse(message.body));
       });
@@ -23,10 +26,8 @@ function ApplicationModel(stompClient) {
         self.pushNotification("Position update " + message.body);
         self.portfolio().updatePosition(JSON.parse(message.body));
       });
-      stompClient.subscribe("/user/queue/errors", function(message) {
-        self.pushNotification("Error " + message.body);
-      });
     }, function(error) {
+       self.pushNotification(error.headers.message)
       console.log("STOMP protocol error " + error);
     });
   }
