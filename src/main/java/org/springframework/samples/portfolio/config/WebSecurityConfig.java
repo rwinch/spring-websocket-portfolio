@@ -15,11 +15,24 @@
  */
 package org.springframework.samples.portfolio.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.session.ExpiringSession;
+import org.springframework.session.Session;
+import org.springframework.session.SessionRepository;
+import org.springframework.session.data.redis.RedisOperationsSessionRepository;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.session.web.http.SessionRepositoryFilter;
+import org.springframework.web.filter.GenericFilterBean;
+
+import javax.servlet.Filter;
 
 /**
  * Customizes Spring Security configuration.
@@ -27,7 +40,11 @@ import org.springframework.security.web.header.writers.frameoptions.XFrameOption
  * @author Rob Winch
  */
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableRedisHttpSession
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	@Autowired
+	private SessionRepository<? extends ExpiringSession> sessionRepository;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -57,8 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth
 			.inMemoryAuthentication()
 				.withUser("fabrice").password("fab123").roles("USER").and()

@@ -25,12 +25,12 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class<?>[] { WebSecurityConfig.class };
+		return null;
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class<?>[] { WebConfig.class, WebSocketConfig.class };
+		return new Class<?>[] { EmbeddedRedisConfig.class, RedisDataSourceConfig.class, WebSecurityConfig.class, WebConfig.class, WebSocketSecurityConfig.class, WebSocketConfig.class};
 	}
 
 	@Override

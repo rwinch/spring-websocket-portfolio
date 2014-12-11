@@ -1,3 +1,10 @@
+# NOTE
+
+This fork demonstrates Spring Security's and Spring Session's WebSocket integration.
+
+* The user `fabrice` can only read data
+* the user `paulson` can perform trades
+
 ## Overview
 
 A sample demonstrating capabilities in the Spring Framework to build WebSocket-style messaging applications. The application uses [STOMP](http://stomp.github.io/) (over WebSocket) for messaging between browsers and server and [SockJS](https://github.com/sockjs/sockjs-protocol) for WebSocket fallback options.

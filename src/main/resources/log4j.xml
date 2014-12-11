@@ -9,9 +9,9 @@
 			<param name="ConversionPattern" value="%d{HH:mm:ss} [%t] %c{1}[%p] - %m%n" />
 		</layout>
 	</appender>
-	
-	<logger name="org.springframework.samples">
-		<level value="debug" />
+
+	<!-- <logger name="org.springframework.samples">
+		<level value="error" />
 	</logger>
 	<logger name="org.springframework.messaging">
 		<level value="debug" />
@@ -24,11 +24,14 @@
 	</logger>
 	<logger name="org.springframework.security">
 		<level value="warn" />
+	</logger> -->
+	<logger name="org.springframework.session">
+		<level value="debug" />
 	</logger>
 
     <root>
 		<priority value="warn" />
 		<appender-ref ref="console" />
 	</root>
-	
+
 </log4j:configuration>

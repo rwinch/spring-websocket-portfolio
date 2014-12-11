@@ -30,6 +30,7 @@ import org.springframework.samples.portfolio.PortfolioPosition;
 import org.springframework.samples.portfolio.service.PortfolioService;
 import org.springframework.samples.portfolio.service.Trade;
 import org.springframework.samples.portfolio.service.TradeService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 
@@ -56,6 +57,7 @@ public class PortfolioController {
 		return portfolio.getPositions();
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@MessageMapping("/trade")
 	public void executeTrade(Trade trade, Principal principal) {
 		trade.setUsername(principal.getName());

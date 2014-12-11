@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+import org.springframework.session.web.socket.config.annotation.AbstractSessionWebSocketMessageBrokerConfigurer;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.socket.config.WebSocketMessageBrokerStats;
@@ -30,11 +31,11 @@ import java.util.Map;
 @EnableScheduling
 @ComponentScan("org.springframework.samples")
 @EnableWebSocketMessageBroker
-public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfigurer {
 
 
 	@Override
-	public void registerStompEndpoints(StompEndpointRegistry registry) {
+	public void configureStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/portfolio").withSockJS();
 	}
 
