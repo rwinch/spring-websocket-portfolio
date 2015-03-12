@@ -16,8 +16,6 @@
 package org.springframework.samples.portfolio.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.simp.SimpMessageType;
-import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 
@@ -30,10 +28,17 @@ public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBro
     @Override
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
-            .antMatchers(SimpMessageType.MESSAGE,"/queue/**","/topic/**").denyAll()
-            .antMatchers(SimpMessageType.SUBSCRIBE, "/queue/**/*-user*","/topic/**/*-user*").denyAll()
-            .antMatchers("/user/queue/errors").permitAll()
-            .anyMessage().hasRole("USER");
+                .simpMessageDestMatchers("/queue/**", "/topic/**").denyAll()
+                .simpSubscribeDestMatchers("/queue/**/*-user*", "/topic/**/*-user*").denyAll()
+                .simpDestMatchers("/user/queue/errors").permitAll()
+                .anyMessage().hasRole("USER");
+
 
     }
+
+    @Override
+    protected boolean sameOriginDisabled() {
+        return true;
+    }
+
 }
